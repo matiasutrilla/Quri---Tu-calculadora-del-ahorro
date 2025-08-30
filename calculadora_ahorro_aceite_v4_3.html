@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora de Ahorro — v4.3 (Marketero)</title>
+<style>
+  :root{
+    --bg:#0f172a;
+    --card:#111827;
+    --ink:#e5e7eb;
+    --muted:#9ca3af;
+    --accent:#22c55e;
+    --brand:#38bdf8;
+    --border:rgba(255,255,255,.10);
+    --gold:#facc15;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background:radial-gradient(1200px 600px at 20% -10%, rgba(56,189,248,.12), transparent 60%), linear-gradient(180deg,#0b1223, #0f172a 40%);
+    color:var(--ink);
+  }
+  header{
+    padding:22px 20px 10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .logoBox{
+    width:180px; height:56px; border:1px dashed rgba(255,255,255,.28);
+    border-radius:12px; display:grid; place-items:center; color:#cbd5e1; font-size:12px; letter-spacing:.5px;
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  }
+  .tagline{
+    flex:1; min-width:260px;
+  }
+  .tagline h1{ margin:0; font-size: clamp(20px, 2.8vw, 28px); letter-spacing: .2px; }
+  .tagline .sub{ color:var(--muted); margin-top:4px; font-size:13px }
+  .badge{
+    background: rgba(34,197,94,.12);
+    border:1px solid rgba(34,197,94,.35);
+    color:#d5ffe3;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  main{ padding:10px 20px 32px; max-width: 1100px; margin:0 auto; }
+  .grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap:18px; }
+  @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    box-shadow: 0 8px 28px rgba(0,0,0,.28);
+  }
+  .card h2, .card h3 { margin-top:0; }
+  .muted{ color: var(--muted); }
+  .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  @media (max-width: 680px){ .row { grid-template-columns: 1fr; } }
+  label{ font-size:13px; color: var(--muted); display:block; margin-bottom:6px; }
+  input, select{
+    width:100%; background:#0b1020; border:1px solid rgba(255,255,255,.14);
+    color:var(--ink); padding:12px 12px; border-radius:10px; font-size:14px; outline:none;
+  }
+  input:focus, select:focus{ border-color: rgba(34,197,94,.75); box-shadow:0 0 0 2px rgba(34,197,94,.25); }
+  .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; align-items:center }
+  button{
+    background: #0f2918; border:1px solid rgba(34,197,94,.55); color:#d7ffe7;
+    padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:800; font-size:14px;
+  }
+  button.secondary{ background: #13273a; border-color: rgba(56,189,248,.35); color:#d1f3ff; font-weight:700;}
+  .kpi{ background:#0b1020; border:1px solid var(--border); border-radius:12px; padding:14px; }
+  .kpi h3{ margin:0 0 6px 0; font-size:13px; color:var(--muted); font-weight:600; display:flex; align-items:center; gap:8px }
+  .kpi .val{ font-size: clamp(22px, 3.2vw, 34px); font-weight: 900; letter-spacing:.2px; }
+  .stack{ display:grid; gap:12px; }
+  .bar{ height:14px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:999px; overflow:hidden }
+  .bar > div{ height:100%; width:50%; background: linear-gradient(90deg, #22c55e, #38bdf8); }
+  .compare{ display:grid; gap:10px; grid-template-columns: 1fr 1fr; }
+  .compare .col{ background:#0b1020; border:1px solid var(--border); border-radius:12px; padding:12px; }
+  .list{ margin:0; padding-left:16px; color:var(--muted); font-size:14px; }
+  .pill{ display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.12); background:#0b1020; color:#cdd6df; margin-right:6px; }
+  .presets{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .preset{ background:#0b1020; border:1px solid var(--border); color:#e5f7ff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer }
+  .toggle{ display:flex; align-items:center; gap:8px; }
+  .toggle input{ width:auto }
+  .ahorroHero{
+    background:linear-gradient(180deg, rgba(34,197,94,.10), rgba(34,197,94,.08));
+    border:1px solid rgba(34,197,94,.35);
+    border-radius:14px;
+    padding:14px;
+  }
+  .ahorroHero .val{ font-size: clamp(26px, 4vw, 40px); font-weight:900; color:#d0ffd9 }
+  .ahorroHero .sub{ color:#b4f7c2; font-size:14px; margin-top:4px }
+  .icon{ font-size:16px }
+  footer{
+    padding:18px 20px 30px; text-align:center; color:var(--muted); font-size:12px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logoBox">TU LOGO AQUÍ</div>
+    <div class="tagline">
+      <h1>Aceite especializado: rendimiento que se nota</h1>
+      <div class="sub">Transforma tu negocio con un aceite que rinde más y te cuesta menos.</div>
+    </div>
+    <span class="badge">Demo comercial · listo para clientes</span>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1) Ingresa tus datos</h2>
+      <div class="row">
+        <div>
+          <label for="precioActual">Precio por balde — aceite actual (S/)</label>
+          <input id="precioActual" type="number" step="0.01" min="0" value="190">
+          <div class="hint">Competencia suele vender en <strong>18 L</strong>, ajusta abajo si tu cliente usa otro litraje.</div>
+        </div>
+        <div>
+          <label for="litrosActual">Litros por balde — aceite actual (L)</label>
+          <input id="litrosActual" type="number" step="0.1" min="1" value="18">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="precioEspecial">Precio por balde — aceite especializado (S/)</label>
+          <input id="precioEspecial" type="number" step="0.01" min="0" value="250">
+        </div>
+        <div>
+          <label for="litrosEspecial">Litros por balde — aceite especializado (L)</label>
+          <input id="litrosEspecial" type="number" step="0.1" min="1" value="20">
+          <div class="hint">Default 20 L, pero puedes usar 18.9 L, 19 L, etc.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="consumoBaldesSem">Consumo actual (baldes por semana)</label>
+          <input id="consumoBaldesSem" type="number" step="0.01" min="0" value="3">
+          <div class="hint">Se calculará el equivalente en litros automáticamente.</div>
+        </div>
+        <div>
+          <label for="rendExtra">% más de rendimiento del especializado</label>
+          <input id="rendExtra" type="number" step="0.1" min="0" max="200" value="50">
+          <div class="hint">Ej.: 50% ⇒ factor 1.5 ⇒ consume 1/1.5 de litros.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="periodo">Periodo de análisis</label>
+          <select id="periodo">
+            <option value="semana">Por semana</option>
+            <option value="mes" selected>Por mes</option>
+            <option value="anio">Por año</option>
+          </select>
+        </div>
+        <div>
+          <label for="locales">Número de locales (opcional)</label>
+          <input id="locales" type="number" step="1" min="1" value="1">
+        </div>
+      </div>
+      <div class="actions">
+        <button id="btnCalcular">Calcular</button>
+        <button class="secondary" id="btnCompartir">Copiar resumen</button>
+        <button class="secondary" id="btnImprimir">Imprimir / PDF</button>
+        <label class="toggle">
+          <input type="checkbox" id="autoCalc" checked> Recalcular al cambiar valores
+        </label>
+      </div>
+      <div class="presets">
+        <span class="preset" data-type="polleria">🍗 Preset: Pollería</span>
+        <span class="preset" data-type="chifa">🥡 Preset: Chifa</span>
+        <span class="preset" data-type="menu">🍲 Preset: Menú</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2) Resultado</h2>
+
+      <div class="ahorroHero">
+        <h3 style="margin:0 0 6px 0; display:flex; align-items:center; gap:8px;"><span class="icon">💰</span> Ahorro estimado</h3>
+        <div class="val" id="ahorro">S/ 0</div>
+        <div class="sub" id="ahorroBaldes">≈ 0 baldes gratis por periodo</div>
+      </div>
+
+      <div class="stack" style="margin-top:12px">
+        <div class="row">
+          <div class="kpi">
+            <h3><span class="icon">📉</span> Gasto actual <span class="pill" id="tagPeriodo"></span></h3>
+            <div class="val" id="gastoActual">S/ 0</div>
+          </div>
+          <div class="kpi">
+            <h3><span class="icon">📈</span> Gasto con especializado <span class="pill" id="tagPeriodo2"></span></h3>
+            <div class="val" id="gastoEspecial">S/ 0</div>
+          </div>
+        </div>
+
+        <div class="kpi">
+          <h3><span class="icon">🔥</span> Progreso de ahorro</h3>
+          <div class="bar" aria-label="Progreso de ahorro respecto al gasto actual">
+            <div id="barra"></div>
+          </div>
+          <div class="hint" id="notaAhorro"></div>
+        </div>
+
+        <div class="compare">
+          <div class="col">
+            <h3 style="margin:0 0 8px 0;">¿Hasta cuánto podría pagar sin gastar más?</h3>
+            <div class="val" id="precioMax">S/ 0</div>
+            <div class="hint">Precio máximo por balde del especializado (con tus supuestos).</div>
+          </div>
+          <div class="col">
+            <h3 style="margin:0 0 8px 0;">¿Cuánto tendría que rendir para que valga la pena?</h3>
+            <div class="val" id="rendMin">0%</div>
+            <div class="hint">% mínimo de “más rendimiento” con precios y litrajes actuales.</div>
+          </div>
+        </div>
+
+        <div class="kpi">
+          <h3>Detalle de consumo</h3>
+          <ul class="list">
+            <li id="detLitros">—</li>
+            <li id="detConsumoEsp">—</li>
+            <li id="detLocales">—</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Pruébalo en tu cocina. El ahorro habla por sí solo.
+  </footer>
+
+<script>
+(function(){
+  const $ = (id)=>document.getElementById(id);
+  const P = new Intl.NumberFormat('es-PE', { style:'currency', currency:'PEN', maximumFractionDigits:0 });
+  const P2 = new Intl.NumberFormat('es-PE', { style:'currency', currency:'PEN', maximumFractionDigits:2 });
+  const N = new Intl.NumberFormat('es-PE', { maximumFractionDigits:1 });
+  const N0 = new Intl.NumberFormat('es-PE', { maximumFractionDigits:0 });
+
+  function weeks(periodo){
+    if(periodo==='semana') return 1;
+    if(periodo==='mes') return 4.33;
+    if(periodo==='anio') return 52;
+    return 4.33;
+  }
+  function clamp(val, min, max){ return Math.min(Math.max(val, min), max); }
+
+  function calcular(){
+    const precioActualB = parseFloat($('precioActual').value || 0);
+    const litrosActualB = parseFloat($('litrosActual').value || 18);
+    const precioEspB    = parseFloat($('precioEspecial').value || 0);
+    const litrosEspB    = parseFloat($('litrosEspecial').value || 20);
+    const consumoBsem   = parseFloat($('consumoBaldesSem').value || 0);
+    const rendExtra     = clamp(parseFloat($('rendExtra').value || 0), 0, 200);
+    const periodo       = $('periodo').value;
+    const locales       = Math.max(parseInt($('locales').value || 1), 1);
+    const w = weeks(periodo);
+    const f = 1 + (rendExtra/100);
+
+    // litros estandarizados
+    const litrosSem_actual = consumoBsem * litrosActualB;
+    const litrosPeriodo_actual = litrosSem_actual * w;
+    const litrosPeriodo_esp = litrosPeriodo_actual / (f || 1);
+    const baldesPeriodo_esp = litrosEspB > 0 ? (litrosPeriodo_esp / litrosEspB) : 0;
+    const consumoB_periodo_actual = consumoBsem * w;
+
+    // gastos
+    const gastoActual_local  = consumoB_periodo_actual * precioActualB;
+    const gastoEsp_local     = baldesPeriodo_esp * precioEspB;
+    const gastoActual_total = gastoActual_local * locales;
+    const gastoEsp_total    = gastoEsp_local * locales;
+    const ahorro_total      = Math.max(0, gastoActual_total - gastoEsp_total);
+
+    // break-evens
+    const precioMax = (litrosActualB > 0) ? (precioActualB * (f * litrosEspB) / litrosActualB) : Infinity;
+    let rendMinimo = 0;
+    if(precioActualB > 0 && litrosEspB > 0 && litrosActualB > 0){
+      const f_min = (litrosActualB * precioEspB) / (precioActualB * litrosEspB);
+      rendMinimo = Math.max(0, (f_min - 1) * 100);
+      if(rendMinimo > 200) rendMinimo = 200;
+    }
+
+    // UI
+    $('tagPeriodo').textContent = periodo;
+    $('tagPeriodo2').textContent = periodo;
+
+    $('gastoActual').textContent = P.format(gastoActual_total);
+    $('gastoEspecial').textContent = P.format(gastoEsp_total);
+    $('ahorro').textContent = P.format(ahorro_total);
+
+    // equivalencia en baldes gratis (vs. precio del balde especializado)
+    let baldesGratis = 0;
+    if (precioEspB > 0) baldesGratis = ahorro_total / precioEspB;
+    const unidad = (periodo==='semana'?'semana':(periodo==='anio'?'año':'mes'));
+    $('ahorroBaldes').textContent = `≈ ${N.format(baldesGratis)} baldes gratis por ${unidad}`;
+
+    const ratioAhorro = gastoActual_total>0 ? (ahorro_total / gastoActual_total) : 0;
+    $('barra').style.width = (Math.min(1, Math.max(0, ratioAhorro)) * 100) + '%';
+
+    const textoNota = ahorro_total>0
+      ? `Ahorro del ${N0.format(ratioAhorro*100)}% vs. situación actual.`
+      : (gastoEsp_total > gastoActual_total
+          ? `Con estos supuestos, el gasto subiría ${N0.format(((gastoEsp_total/gastoActual_total)-1)*100)}%. Ajusta % rendimiento, precios o litrajes.`
+          : `Sin diferencia de gasto con los supuestos actuales.`);
+    $('notaAhorro').textContent = textoNota;
+
+    $('precioMax').textContent = Number.isFinite(precioMax) ? P2.format(precioMax) : '—';
+    $('rendMin').textContent = N0.format(rendMinimo) + '%';
+
+    $('detLitros').textContent = `Consumo actual: ${N.format(litrosSem_actual)} L/semana (baldes de ${N.format(litrosActualB)} L).`;
+    const baldesEspSemana = litrosEspB > 0 ? (litrosSem_actual/(f || 1)/litrosEspB) : 0;
+    $('detConsumoEsp').textContent = `Con especializado: ${N.format(baldesEspSemana)} baldes/semana de ${N.format(litrosEspB)} L (=${N.format(baldesEspSemana*litrosEspB)} L/semana).`;
+    $('detLocales').textContent = `Cálculo para ${locales} ${locales===1?'local':'locales'} — periodo: ${periodo}.`;
+
+    return { precioActualB, litrosActualB, precioEspB, litrosEspB, consumoBsem, rendExtra, periodo, locales,
+             gastoActual_total, gastoEsp_total, ahorro_total, precioMax, rendMinimo, f, baldesGratis };
+  }
+
+  function resumenTXT(r){
+    const P0 = (v)=>new Intl.NumberFormat('es-PE',{style:'currency',currency:'PEN',maximumFractionDigits:0}).format(v);
+    const ahorroPct = r.gastoActual_total>0 ? Math.round((r.ahorro_total/r.gastoActual_total)*100) : 0;
+    const unidad = (r.periodo==='semana'?'semana':(r.periodo==='anio'?'año':'mes'));
+    const linea1 = `Ahorro estimado: ${P0(r.ahorro_total)} (${ahorroPct}%) ≈ ${r.baldesGratis.toFixed(1)} baldes gratis por ${unidad}.`;
+    const linea2 = `Con especializado (${r.litrosEspB} L) y ${r.rendExtra}% más de rendimiento (factor ${r.f.toFixed(2)}), el gasto ${r.periodo} baja de ${P0(r.gastoActual_total)} a ${P0(r.gastoEsp_total)}.`;
+    const linea3 = `Precio máx. por balde para no gastar más: S/ ${r.precioMax.toFixed(2)}.`;
+    return `${linea1}\n${linea2}\n${linea3}`;
+  }
+
+  function bindAutoCalc(){
+    const ids = ['precioActual','litrosActual','precioEspecial','litrosEspecial','consumoBaldesSem','rendExtra','periodo','locales'];
+    const on = ()=>{ if($('autoCalc').checked) calcular(); };
+    ids.forEach(id=>{
+      const el = $(id);
+      if(!el) return;
+      ['input','change','keyup'].forEach(evt=> el.addEventListener(evt,on));
+    });
+  }
+
+  // Presets típicos (valores orientativos)
+  const presets = {
+    polleria: { precioActual:190, litrosActual:18, precioEspecial:250, litrosEspecial:20, consumoBaldesSem:4.2, rendExtra:50, periodo:'mes', locales:1 },
+    chifa:    { precioActual:185, litrosActual:18, precioEspecial:245, litrosEspecial:20, consumoBaldesSem:3.0, rendExtra:40, periodo:'mes', locales:1 },
+    menu:     { precioActual:180, litrosActual:18, precioEspecial:240, litrosEspecial:20, consumoBaldesSem:2.2, rendExtra:35, periodo:'mes', locales:1 }
+  };
+  function applyPreset(kind){
+    const p = presets[kind]; if(!p) return;
+    $('precioActual').value=p.precioActual; $('litrosActual').value=p.litrosActual;
+    $('precioEspecial').value=p.precioEspecial; $('litrosEspecial').value=p.litrosEspecial;
+    $('consumoBaldesSem').value=p.consumoBaldesSem; $('rendExtra').value=p.rendExtra;
+    $('periodo').value=p.periodo; $('locales').value=p.locales;
+    calcular();
+  }
+
+  // Bind UI
+  document.querySelectorAll('.preset').forEach(el=> el.addEventListener('click', ()=> applyPreset(el.dataset.type)));
+  $('btnCalcular').addEventListener('click', ()=>{ calcular(); });
+  $('btnCompartir').addEventListener('click', async ()=>{
+    const r = calcular();
+    const txt = resumenTXT(r);
+    try{ await navigator.clipboard.writeText(txt); alert('Resumen copiado ✅'); }
+    catch(e){ prompt('Copia el resumen:', txt); }
+  });
+  $('btnImprimir').addEventListener('click', ()=>{ window.print(); });
+
+  // init
+  bindAutoCalc();
+  calcular();
+})();
+</script>
+</body>
+</html>
