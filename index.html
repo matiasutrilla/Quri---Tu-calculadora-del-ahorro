@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Quri — tu calculadora de ahorro</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --bg:#0b1625;
@@ -20,74 +20,47 @@
     --shadow:0 8px 24px rgba(0,0,0,.35);
   }
   *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.35;
-  }
-  header{
-    display:flex; align-items:center; gap:14px;
-    padding:14px 22px; border-bottom:2px solid var(--gold);
-    background:linear-gradient(180deg,rgba(212,175,55,.06),rgba(212,175,55,0) 40%);
-  }
+  body{ margin:0;background:var(--bg);color:var(--text);
+        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif }
+  header{display:flex;align-items:center;gap:14px;padding:14px 22px;
+         border-bottom:2px solid var(--gold);
+         background:linear-gradient(180deg,rgba(212,175,55,.06),rgba(212,175,55,0) 40%)}
   header img{height:28px}
-  .wrap{max-width:1200px; margin:28px auto; padding:0 16px}
-  .grid{display:grid; grid-template-columns:1fr 1fr; gap:20px}
-  @media (max-width:960px){ .grid{grid-template-columns:1fr; } }
+  .wrap{max-width:1200px;margin:28px auto;padding:0 16px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:960px){.grid{grid-template-columns:1fr}}
 
-  .card{
-    background:var(--panel); border:1px solid var(--stroke);
-    border-radius:14px; padding:18px; box-shadow:var(--shadow);
-  }
-  .card h3{margin:0 0 12px; font-weight:700}
-  label{display:block; font-size:.9rem; color:var(--muted); margin:12px 0 6px}
-  input, select{
-    width:100%; background:var(--panel-2); color:var(--text);
-    border:1px solid var(--stroke); border-radius:10px; padding:12px 14px;
-    outline:none;
-  }
+  .card{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 12px;font-weight:700}
+  label{display:block;font-size:.9rem;color:var(--muted);margin:12px 0 6px}
+  input,select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--stroke);border-radius:10px;padding:12px 14px;outline:none}
   input::placeholder{color:#6f86a6}
-  .oil-list{display:flex; flex-direction:column; gap:12px}
-  .oil{
-    position:relative; display:flex; gap:12px; align-items:center;
-    background:var(--panel-2); border:1px solid var(--stroke);
-    border-radius:12px; padding:12px; cursor:pointer; transition:.2s;
-  }
+
+  .oil-list{display:flex;flex-direction:column;gap:12px}
+  .oil{position:relative;display:flex;gap:12px;align-items:center;background:var(--panel-2);border:1px solid var(--stroke);border-radius:12px;padding:12px;cursor:pointer;transition:.2s}
   .oil:hover{border-color:#2b4466}
-  .oil.active{border-color:var(--gold); box-shadow:0 0 0 2px rgba(212,175,55,.25) inset}
-  .oil img{width:52px; height:52px; object-fit:cover; border-radius:8px}
-  .oil .meta{font-size:.86rem; color:var(--muted)}
-  .ribbon{
-    position:absolute; top:10px; right:10px;
-    background:var(--gold); color:#000; font-weight:700;
-    font-size:.72rem; padding:4px 10px; border-radius:6px;
-  }
+  .oil.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,175,55,.25) inset}
+  .oil img{width:52px;height:52px;object-fit:cover;border-radius:8px}
+  .oil .meta{font-size:.86rem;color:var(--muted)}
+  .ribbon{position:absolute;top:10px;right:10px;background:var(--gold);color:#000;font-weight:700;font-size:.72rem;padding:4px 10px;border-radius:6px}
 
   /* Resultados */
-  .loyalty{
-    border:2px dashed var(--gold); border-radius:12px; padding:12px 14px;
-    background:linear-gradient(180deg,rgba(212,175,55,.08),rgba(212,175,55,0));
-    margin-bottom:12px; display:none;
-  }
-  .big{
-    background:var(--panel-2); border:1px solid var(--stroke);
-    border-radius:14px; padding:16px; margin-top:6px;
-  }
-  .big .title{color:var(--text); font-weight:700; margin-bottom:6px}
-  .big .money{background:var(--gold); color:#111; font-weight:800;
-    border-radius:10px; padding:12px 14px; font-size:1.8rem; display:inline-block}
-  .kpis{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px}
-  .kpi{background:var(--panel-2); border:1px solid var(--stroke); border-radius:12px; padding:12px}
+  .loyalty{border:2px dashed var(--gold);border-radius:12px;padding:12px 14px;background:linear-gradient(180deg,rgba(212,175,55,.08),rgba(212,175,55,0));margin-bottom:12px;display:none}
+  .big{background:var(--panel-2);border:1px solid var(--stroke);border-radius:14px;padding:16px;margin-top:6px}
+  .big .title{color:var(--text);font-weight:700;margin-bottom:6px}
+  .big .money{background:var(--gold);color:#111;font-weight:800;border-radius:10px;padding:12px 14px;font-size:1.8rem;display:inline-block}
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .kpi{background:var(--panel-2);border:1px solid var(--stroke);border-radius:12px;padding:12px}
   .muted{color:var(--muted)}
-  .bar{height:8px; background:#0a1320; border:1px solid var(--stroke); border-radius:999px; overflow:hidden}
-  .bar>span{display:block; height:100%; background:var(--accent); width:0%}
-  .cta{background:#0e2f1f; border:1px solid #1b5e3a; border-radius:12px; padding:14px; margin-top:12px}
-  .cta .mail{background:#061a11; border:1px solid #194b31; color:#bff3d8; border-radius:8px; padding:10px 12px; display:inline-block}
-  .btns{display:flex; gap:10px; margin-top:12px}
-  .btn{flex:1; border-radius:10px; padding:12px 14px; font-weight:700; border:0; cursor:pointer}
-  .btn.save{background:var(--danger); color:#fff}
-  .btn.clear{background:#6c7683; color:#061018}
-  .hint{font-size:.8rem; color:var(--muted); margin-top:8px}
+  .bar{height:8px;background:#0a1320;border:1px solid var(--stroke);border-radius:999px;overflow:hidden}
+  .bar>span{display:block;height:100%;background:var(--accent);width:0%}
+  .cta{background:#0e2f1f;border:1px solid #1b5e3a;border-radius:12px;padding:14px;margin-top:12px}
+  .cta .mail{background:#061a11;border:1px solid #194b31;color:#bff3d8;border-radius:8px;padding:10px 12px;display:inline-block}
+  .btns{display:flex;gap:10px;margin-top:12px}
+  .btn{flex:1;border-radius:10px;padding:12px 14px;font-weight:700;border:0;cursor:pointer}
+  .btn.save{background:var(--danger);color:#fff}
+  .btn.clear{background:#6c7683;color:#061018}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:8px}
 </style>
 </head>
 <body>
@@ -95,7 +68,7 @@
     <img src="images/alicorp.png" alt="Alicorp" />
     <div>
       <div style="font-weight:800">Quri — tu calculadora de ahorro</div>
-      <div style="font-size:.9rem; color:var(--muted)">Buscando el dorado perfecto que rinda más</div>
+      <div style="font-size:.9rem;color:var(--muted)">Buscando el dorado perfecto que rinda más</div>
     </div>
   </header>
 
@@ -104,14 +77,24 @@
       <!-- IZQUIERDA -->
       <section class="card">
         <h3>Tu consumo de aceite hoy</h3>
-        <label for="precioActual">Precio por balde (S/)</label>
-        <input id="precioActual" type="number" placeholder="Ej. 124" min="0" step="0.01" />
-
-        <label for="baldesSemana">Baldes por semana</label>
-        <input id="baldesSemana" type="number" placeholder="Ej. 3" min="0" step="1" />
-
-        <label for="locales">Número de locales</label>
-        <input id="locales" type="number" placeholder="Ej. 1" min="0" step="1" />
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <label for="precioActual">Precio por balde (S/)</label>
+            <input id="precioActual" type="number" placeholder="Ej. 124" min="0" step="0.01" />
+          </div>
+          <div>
+            <label for="litrosActual">Litros por balde actual (L)</label>
+            <input id="litrosActual" type="number" placeholder="18" value="18" min="1" step="1" />
+          </div>
+          <div>
+            <label for="baldesSemana">Baldes por semana</label>
+            <input id="baldesSemana" type="number" placeholder="Ej. 3" min="0" step="1" />
+          </div>
+          <div>
+            <label for="locales">Número de locales</label>
+            <input id="locales" type="number" placeholder="Ej. 1" min="0" step="1" />
+          </div>
+        </div>
 
         <h3 style="margin-top:18px">Elige tu aceite especializado</h3>
         <div class="oil-list" id="oilList">
@@ -142,12 +125,20 @@
             </div>
           </article>
         </div>
+
+        <!-- Eliminado: precio/litros del seleccionado -->
+        <!-- Eliminado: no hace falta, ya está en cada tarjeta y se calcula automáticamente -->
+        <div class="btns" style="margin-top:14px">
+          <button class="btn save" id="btnPdf">Guardar resultados (PDF)</button>
+          <button class="btn clear" id="btnClear">Limpiar datos</button>
+        </div>
       </section>
 
       <!-- DERECHA -->
       <section class="card">
         <h3>Resultado de tu transformación</h3>
 
+        <!-- Plan de lealtad (solo Crisol) -->
         <div id="loyalty" class="loyalty">
           <strong>🔥 Crisol — Plan de lealtad</strong>
           <div class="muted">Acumulas <span id="puntos">0</span> puntos (1 punto por cada S/10 gastados en Crisol Fritura Intensa).</div>
@@ -162,11 +153,11 @@
         <div class="kpis">
           <div class="kpi">
             <div class="muted">Gasto actual (mes)</div>
-            <div style="font-weight:800; font-size:1.2rem" id="gastoActual">S/ 0.00</div>
+            <div style="font-weight:800;font-size:1.2rem" id="gastoActual">S/ 0.00</div>
           </div>
           <div class="kpi">
             <div class="muted">Gasto con seleccionado (mes)</div>
-            <div style="font-weight:800; font-size:1.2rem" id="gastoNuevo">S/ 0.00</div>
+            <div style="font-weight:800;font-size:1.2rem" id="gastoNuevo">S/ 0.00</div>
           </div>
         </div>
 
@@ -178,22 +169,17 @@
 
         <div class="kpi" style="margin-top:12px">
           <div>💡 ¿Hasta cuánto podrías pagar por balde sin gastar más?</div>
-          <div style="font-weight:800; font-size:1.2rem" id="precioMax">S/ —</div>
+          <div style="font-weight:800;font-size:1.2rem" id="precioMax">S/ —</div>
           <div class="muted">Precio máximo por balde del aceite seleccionado.</div>
         </div>
 
         <div class="cta">
-          <div style="font-weight:700; margin-bottom:8px">¿Quieres comprobar este rendimiento en tu cocina? 🚀</div>
+          <div style="font-weight:700;margin-bottom:8px">¿Quieres comprobar este rendimiento en tu cocina? 🚀</div>
           <div class="mail">asesoriatecnica@alicorp.com.pe</div>
-          <button class="btn" style="margin-top:10px; background:var(--accent); color:#062016; font-weight:800; width:100%">
+          <button class="btn" style="margin-top:10px;background:var(--accent);color:#062016;font-weight:800;width:100%">
             Quiero recibir asesoría técnica
           </button>
           <div class="hint">Se enviará un correo con el resumen de tu análisis.</div>
-        </div>
-
-        <div class="btns">
-          <button class="btn save" id="btnPdf">Guardar resultados (PDF)</button>
-          <button class="btn clear" id="btnClear">Limpiar datos</button>
         </div>
       </section>
     </div>
@@ -222,28 +208,25 @@
         };
 
         // Mostrar/ocultar plan de lealtad
-        if(aceite.id === 'crisol'){
-          $('#loyalty').style.display = 'block';
-        }else{
-          $('#loyalty').style.display = 'none';
-        }
+        $('#loyalty').style.display = (aceite.id === 'crisol') ? 'block' : 'none';
         calcular();
       });
     });
   }
 
   // Cálculo automático
-  ['precioActual','baldesSemana','locales'].forEach(id=>{
+  ['precioActual','baldesSemana','locales','litrosActual'].forEach(id=>{
     document.getElementById(id).addEventListener('input', calcular);
   });
 
   function calcular(){
     const precioAct = parseFloat($('#precioActual').value)||0;
+    const litrosAct = parseFloat($('#litrosActual').value)||0;
     const baldes = parseFloat($('#baldesSemana').value)||0;
     const locales = parseFloat($('#locales').value)||0;
 
-    if(!aceite || !precioAct || !baldes || !locales){
-      // reset parcial
+    if(!aceite || !precioAct || !baldes || !locales || !litrosAct){
+      // reset
       $('#gastoActual').textContent = fmt(0);
       $('#gastoNuevo').textContent = fmt(0);
       $('#ahorro').textContent = fmt(0);
@@ -255,48 +238,43 @@
       return;
     }
 
-    // Mes ~ 4 semanas
+    // Normalizamos a “volumen de fritura”: usamos baldes actuales * semanas * locales
     const semanasMes = 4;
-    const consumoBaldesMes = baldes * semanasMes * locales;
+    const cargasMes = baldes * semanasMes * locales;   // nº de baldes que usa hoy
 
-    const gastoActual = precioAct * consumoBaldesMes;
-
-    // Con aceite seleccionado (se asume mismo número de “cargas” pero rinde más)
-    const gastoNuevo = (aceite.precio * consumoBaldesMes) / aceite.rend;
+    // Si el seleccionado rinde más, necesitará menos “cargas equivalentes”
+    const gastoActual = precioAct * cargasMes;
+    const gastoNuevo = (aceite.precio * cargasMes) / aceite.rend;
 
     const ahorro = gastoActual - gastoNuevo;
-    const pct = gastoActual > 0 ? (ahorro/gastoActual)*100 : 0;
+    const pct = gastoActual>0 ? (ahorro/gastoActual)*100 : 0;
 
     $('#gastoActual').textContent = fmt(gastoActual);
     $('#gastoNuevo').textContent = fmt(gastoNuevo);
     $('#ahorro').textContent = fmt(ahorro);
     $('#ahorroHint').textContent = `≈ ${(ahorro>0?(ahorro/aceite.precio):0).toFixed(1)} baldes gratis por mes`;
     $('#progreso').textContent = `Ahorro ${pct.toFixed(2)}% vs. situación actual`;
-    $('#bar').style.width = Math.max(0, Math.min(100, pct)).toFixed(2) + '%';
+    $('#bar').style.width = Math.max(0,Math.min(100,pct)).toFixed(2)+'%';
 
-    // Precio máximo por balde sin gastar más (tope indiferencia)
-    const precioMaximo = (gastoActual / consumoBaldesMes);
-    $('#precioMax').textContent = fmt(precioMaximo);
+    // Precio máximo por balde indiferente
+    const precioMax = (gastoActual / cargasMes);
+    $('#precioMax').textContent = fmt(precioMax);
 
-    // Puntos (solo Crisol: 1 punto por S/10 gastados)
-    if(aceite.id === 'crisol'){
+    // Puntos (solo Crisol)
+    if(aceite.id==='crisol'){
       const puntos = Math.floor(gastoNuevo / 10);
       $('#puntos').textContent = puntos;
     }
   }
 
-  // PDF (simple: imprime la sección de resultados)
-  document.getElementById('btnPdf').addEventListener('click', ()=>{
-    window.print();
-  });
+  // PDF (imprime la página; los navegadores permiten “Guardar como PDF”)
+  document.getElementById('btnPdf')?.addEventListener('click', ()=>window.print());
 
   // Limpiar
-  document.getElementById('btnClear').addEventListener('click', ()=>{
+  document.getElementById('btnClear')?.addEventListener('click', ()=>{
     ['precioActual','baldesSemana','locales'].forEach(id=>document.getElementById(id).value='');
     document.querySelectorAll('.oil').forEach(c=>c.classList.remove('active'));
-    aceite = null;
-    calcular();
-    window.scrollTo({top:0,behavior:'smooth'});
+    aceite=null; calcular(); window.scrollTo({top:0,behavior:'smooth'});
   });
 
   // Init
