@@ -1,129 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quri — tu calculadora de ahorro</title>
-  <style>
-    :root {
-      --gold-light: #fdf4dc;
-      --gold: #d4af37;
-      --brand: #e63946;
-      --bg-dark: #0f172a;
-      --text: #111827;
-      --card: #ffffff;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: var(--gold-light);
-      color: var(--text);
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      border-bottom: 4px solid var(--gold);
-    }
-
-    header img {
-      height: 40px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.25rem;
-    }
-
-    header small {
-      font-size: 0.8rem;
-      color: var(--brand);
-    }
-
-    main {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      padding: 24px;
-    }
-
-    @media (min-width: 900px) {
-      main {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      margin-top: 0;
-      color: var(--brand);
-    }
-
-    label {
-      display: block;
-      margin: 12px 0 6px;
-      font-weight: 600;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-    }
-
-    .oil-options {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .oil-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border: 2px solid #ddd;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .oil-card img {
-      height: 60px;
-    }
-
-    .oil-card.active {
-      border-color: var(--gold);
-      background: #fffbea;
-    }
-
-    .results h3 {
-      margin-top: 0;
-    }
-
-    .btns {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    button {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .save-btn {
-      backgroun
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quri — tu calculadora de ahorro</title>
+<style>
+  :root{
+    --ink:#0f172a;
+    --muted:#6b7280;
+    --gold-1:#fff4db;
+    --gold-2:#fdeecf;
+    --gold:#d4af37;
+    --gold-deep:#b88915;
+    --card:#ffffff;
+    --brand:#e11d2e;
+    --border:#e7dfc7;
+    --accent:#fff7cc;
+    --success:#0f5132;
+    --success-bg:#d1e7dd;
+  }
+  body{
+    margin:0;
+    font-family: system-ui, sans-serif;
+    color:var(--ink);
+    background: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 100%);
+  }
+  header{
+    display:flex; gap:16px; align-items:center; justify-content:space-between;
+    padding:16px 20px; border-bottom:4px solid var(--gold);
+    background: #fffbea66;
+  }
+  .logo-wrap{display:flex; gap:12px; align-items:center;}
+  .logo-wrap img{height:36px;}
+  .title{margin:0;font-weight:800;font-size:1.125rem;}
+  .subtitle{margin:2px 0 0 0;font-size:.9rem;color:var(--gold-deep);font-weight:600}
+  main{
+    display:grid; gap:20px; padding:18px;
+    grid-template-columns: 1fr;
+    max-width:1200px; margin:0 auto;
+  }
+  @media(min-width:980px){main{grid-template-columns:1.05fr .95fr;}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 6px 12px rgba(0,0,0,.06);}
+  .card h2{margin:4px 0 12px;color:var(--brand);}
+  label{display:block;font-weight:700;margin:12px 0 6px;}
+  input{width:100%;padding:10px;border:1px solid #d7d7d7;border-radius:10px;}
+  .oil-list{display:flex;flex-direction:column;gap:14px;}
+  .oil{position:relative;display:flex;gap:14px;align-items:center;border:2px solid #e5e7eb;border-radius:12px;padding:12px;cursor:pointer;background:#fff;}
+  .oil.active{border-color:var(--gold);background:#fffbea;}
+  .oil img{width:72px;height:72px;object-fit:contain;border:1px solid #eee;border-radius:8px;background:#fff}
+  .ribbon{position:absolute;top:
