@@ -56,33 +56,41 @@ main{
 h2{margin:6px 0 12px; font-size:1.05rem; color:#fff}
 hr.hr{border:none; border-top:1px solid var(--border); margin:14px 0}
 
-/* Inputs */
-label{display:block; font-weight:800; margin:10px 0 6px; color:#fff}
-input{
-  width:100%; padding:11px 12px; border-radius:10px; background:#0b1220;
+/* FORM GRID (2x2 desktop, 1x4 mobile) */
+.formgrid{
+  display:grid; gap:12px; grid-template-columns:1fr;
+}
+.field label{display:block; font-weight:800; margin:6px 0 6px; color:#fff}
+.field input{
+  width:100%; padding:10px 12px; border-radius:10px; background:#0b1220;
   color:#fff; border:1px solid #27324a; font-size:1rem;
+}
+@media (min-width:900px){
+  .formgrid{ grid-template-columns:1fr 1fr; }
 }
 .note{color:var(--muted); font-size:.86rem}
 
 /* Oils */
 .oil-list{display:flex; flex-direction:column; gap:12px}
 .oil{
-  position:relative; display:flex; gap:12px; align-items:center; cursor:pointer;
+  position:relative; overflow:visible;
+  display:flex; gap:12px; align-items:center; cursor:pointer;
   border:2px solid #23314d; border-radius:12px; padding:10px 12px;
   background:var(--panel2); transition:.18s;
 }
 .oil:hover{ box-shadow:0 10px 20px rgba(0,0,0,.25) }
 .oil.active{ border-color:var(--gold); box-shadow:0 0 0 1px rgba(240,194,75,.35), 0 16px 28px rgba(0,0,0,.35) }
 .oil img{
-  width:64px; height:64px; object-fit:contain; border-radius:8px; background:#fff; border:1px solid #e5e7eb;
+  width:56px; height:56px; object-fit:contain; border-radius:8px; background:#fff; border:1px solid #e5e7eb;
 }
 .name{font-weight:900; color:#fff}
 .meta{color:var(--muted); font-size:.92rem}
 .ribbon{
-  position:absolute; top:12px; right:-34px; transform:rotate(45deg);
+  position:absolute; top:8px; right:-36px; transform:rotate(45deg);
   background:linear-gradient(90deg,var(--gold) 0%, var(--gold2) 100%);
-  color:#1b1202; font-weight:900; padding:6px 46px; font-size:.75rem;
-  text-shadow:0 1px 0 rgba(255,255,255,.3);
+  color:#1b1202; font-weight:900; padding:4px 44px; font-size:.72rem;
+  text-shadow:0 1px 0 rgba(255,255,255,.35);
+  border-radius:2px; box-shadow:0 2px 6px rgba(0,0,0,.35);
 }
 
 /* Results */
@@ -98,12 +106,29 @@ input{
 .kpi{background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px}
 .kpi .v{font-size:1.25rem; font-weight:900}
 
-/* Loyalty */
+/* Loyalty EXACT look */
 .loyalty{
-  border:2px dashed rgba(240,194,75,.65);
-  border-radius:12px; padding:12px; background:#1a2135; margin-bottom:12px;
+  background: linear-gradient(180deg,#161f34 0%, #131c2e 100%);
+  border: 2px dashed rgba(240,194,75,.75);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
 }
-.loyalty h4{margin:0 0 6px; color:var(--gold)}
+.loy-head{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.loy-medal{ font-size:1.05rem }
+.loy-title{ color:#fff; font-weight:900; letter-spacing:.2px; }
+.loy-chip{
+  margin-left:auto; font-size:.72rem; font-weight:900; letter-spacing:.6px;
+  color:#1b1202;
+  background: linear-gradient(90deg, #f0c24b 0%, #caa03a 100%);
+  padding:4px 8px; border-radius:999px; border:1px solid rgba(0,0,0,.15);
+  text-shadow:0 1px 0 rgba(255,255,255,.35);
+}
+.loy-copy{ margin:0; color:#d9e0ea; line-height:1.35 }
+.loy-copy strong{ color:#fff; font-weight:900 }
+.loy-note{ color:#9aa3b2; font-size:.9rem }
+.loyalty + .hero{ margin-top:10px }
 
 /* CTA */
 .cta{
@@ -120,9 +145,9 @@ input{
   border-radius:10px; font-weight:800; text-decoration:none;
 }
 
-/* Bottom actions */
-.actions{display:flex; gap:10px; margin-top:12px}
-.btn{flex:1; padding:12px; border:none; border-radius:10px; font-weight:800; cursor:pointer; font-size:1rem}
+/* Bottom actions (más compactos) */
+.actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+.btn{flex:1; padding:10px 12px; border:none; border-radius:8px; font-weight:800; cursor:pointer; font-size:.95rem}
 .btn.save{background:var(--brand); color:#fff}
 .btn.clear{background:#22314c; color:#fff}
 </style>
@@ -142,23 +167,34 @@ input{
   <!-- IZQUIERDA -->
   <section class="card">
     <h2>Tu consumo de aceite hoy</h2>
-    <label for="precioActual">Precio por balde (S/)</label>
-    <input id="precioActual" type="number" min="0" step="0.01" placeholder="Ej. 124">
-    <label for="litrosActual">Litros por balde actual (L)</label>
-    <input id="litrosActual" type="number" min="1" step="1" value="18">
-    <label for="baldesSemana">Baldes por semana</label>
-    <input id="baldesSemana" type="number" min="0" step="1" placeholder="Ej. 3">
-    <label for="numLocales">Número de locales</label>
-    <input id="numLocales" type="number" min="0" step="1" placeholder="Ej. 1">
+    <div class="formgrid">
+      <div class="field">
+        <label for="precioActual">Precio por balde (S/)</label>
+        <input id="precioActual" type="number" min="0" step="0.01" placeholder="Ej. 124">
+      </div>
+      <div class="field">
+        <label for="litrosActual">Litros por balde actual (L)</label>
+        <input id="litrosActual" type="number" min="1" step="1" value="18">
+      </div>
+      <div class="field">
+        <label for="baldesSemana">Baldes por semana</label>
+        <input id="baldesSemana" type="number" min="0" step="1" placeholder="Ej. 3">
+      </div>
+      <div class="field">
+        <label for="numLocales">Número de locales</label>
+        <input id="numLocales" type="number" min="0" step="1" placeholder="Ej. 1">
+      </div>
+    </div>
 
     <hr class="hr">
+
     <h2>Elige tu aceite especializado</h2>
     <div class="oil-list" id="oilList">
       <!-- CRISOL -->
       <div class="oil" data-key="crisol">
         <span class="ribbon">+50% rendimiento</span>
         <img src="crisol.png" alt="Crisol Fritura Intensa"
-             onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=C';">
+             onerror="this.onerror=null;this.src='https://via.placeholder.com/56x56.png?text=C';">
         <div>
           <div class="name">Crisol Fritura Intensa</div>
           <div class="meta">S/ 160 · 20 L · Excelencia en frituras</div>
@@ -168,7 +204,7 @@ input{
       <div class="oil" data-key="tondero">
         <span class="ribbon">+30% rendimiento</span>
         <img src="tondero.png" alt="Tondero Premium Fritura Intensa"
-             onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=T';">
+             onerror="this.onerror=null;this.src='https://via.placeholder.com/56x56.png?text=T';">
         <div>
           <div class="name">Tondero Premium Fritura Intensa</div>
           <div class="meta">S/ 130 · 20 L · Rendimiento confiable</div>
@@ -177,13 +213,14 @@ input{
       <!-- FRIOL -->
       <div class="oil" data-key="friol">
         <img src="friol.png" alt="Friol Ultra"
-             onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=F';">
+             onerror="this.onerror=null;this.src='https://via.placeholder.com/56x56.png?text=F';">
         <div>
           <div class="name">Friol Ultra <span style="color:#94a3b8">(no especializado)</span></div>
           <div class="meta">S/ 135 · 18 L</div>
         </div>
       </div>
     </div>
+
     <p class="note" style="margin-top:8px">Completa tus datos y elige un aceite; los resultados se actualizan automáticamente.</p>
   </section>
 
@@ -191,10 +228,17 @@ input{
   <section class="card results" id="resultsCard">
     <h2>Resultado de tu transformación</h2>
 
-    <!-- Plan de Lealtad primero -->
+    <!-- Plan de Lealtad (arriba) -->
     <div id="loyaltyBox" class="loyalty" style="display:none;">
-      <h4>🎖️ Crisol — Plan de Lealtad</h4>
-      <p>Acumulas <strong id="puntosCrisol">0</strong> puntos (1 punto por cada S/10 gastados en Crisol Fritura Intensa).</p>
+      <div class="loy-head">
+        <span class="loy-medal">🏅</span>
+        <span class="loy-title">Crisol — Plan de Lealtad</span>
+        <span class="loy-chip">ACTIVO</span>
+      </div>
+      <p class="loy-copy">
+        Acumulas <strong id="puntosCrisol">0</strong> puntos
+        <span class="loy-note">(1 punto por cada S/10 gastados en Crisol Fritura Intensa).</span>
+      </p>
     </div>
 
     <div class="hero">
@@ -250,10 +294,10 @@ const OILS = {
 
 /* Elements */
 const els = {
-  precio: document.getElementById('precioActual'),
-  litros: document.getElementById('litrosActual'),
-  baldes: document.getElementById('baldesSemana'),
-  locales:document.getElementById('numLocales'),
+  precio:  document.getElementById('precioActual'),
+  litros:  document.getElementById('litrosActual'),
+  baldes:  document.getElementById('baldesSemana'),
+  locales: document.getElementById('numLocales'),
 
   ahorro:  document.getElementById('ahorroTxt'),
   gastoA:  document.getElementById('gastoActualTxt'),
@@ -271,6 +315,7 @@ const els = {
 
 let seleccionado = null;
 
+/* Selección de aceite */
 document.querySelectorAll('.oil').forEach(card=>{
   card.addEventListener('click', ()=>{
     document.querySelectorAll('.oil').forEach(c=>c.classList.remove('active'));
@@ -280,6 +325,7 @@ document.querySelectorAll('.oil').forEach(card=>{
   });
 });
 
+/* Recalcular al escribir */
 [els.precio, els.litros, els.baldes, els.locales].forEach(i=> i.addEventListener('input', recalcular));
 
 function n(v){ const x = parseFloat(v); return isNaN(x)?0:x; }
