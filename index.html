@@ -6,26 +6,25 @@
 <title>Quri — tu calculadora de ahorro</title>
 <style>
 :root{
-  --bg:#0b1321;          /* fondo oscuro */
-  --panel:#121a2a;       /* panel */
-  --panel-2:#0f172a;     /* panel variante */
-  --ink:#e5e7eb;         /* texto */
-  --muted:#9aa3b2;       /* texto suave */
-  --brand:#e11d2e;       /* rojo Alicorp */
-  --gold:#f0c24b;        /* dorado */
-  --gold-2:#caa03a;
-  --card:#0f172a;
+  --bg:#0b1321;
+  --panel:#10192b;
+  --panel2:#0f172a;
+  --ink:#e5e7eb;
+  --muted:#9aa3b2;
+  --gold:#f0c24b;
+  --gold2:#caa03a;
   --border:#1f2a40;
   --ok:#16a34a;
-  --ok-bg:#102417;
+  --okbg:#0e1f15;
+  --brand:#e11d2e;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", sans-serif;
-  color:var(--ink);
   background: radial-gradient(1200px 600px at 20% -10%, rgba(56,189,248,.10), transparent 60%),
               linear-gradient(180deg, #0a1020 0%, #0b1321 60%, #0b1321 100%);
+  color:var(--ink);
 }
 
 /* Header */
@@ -34,87 +33,81 @@ header{
   padding:14px 18px; border-bottom:3px solid var(--gold);
   background: linear-gradient(180deg, rgba(255,255,255,.03), transparent);
 }
-.brand{
-  display:flex; gap:12px; align-items:center;
-}
+.brand{display:flex; gap:12px; align-items:center}
 .brand img{height:28px}
-.title{margin:0; font-size:1.05rem; font-weight:800}
-.tagline{margin:2px 0 0; color:var(--gold); font-weight:600; font-size:.9rem}
+.title{margin:0; font-size:1.06rem; font-weight:800}
+.tagline{margin:2px 0 0; color:var(--gold); font-weight:600; font-size:.92rem}
 
 /* Layout */
 main{
   max-width:1200px; margin:0 auto; padding:18px;
   display:grid; gap:18px; grid-template-columns:1fr; align-items:start;
 }
-@media (min-width: 980px){
-  main{ grid-template-columns: 1.05fr .95fr; }
-  .results{ position:sticky; top:14px; }
-}
+@media (min-width:980px){ main{ grid-template-columns:1.05fr .95fr } .results{position:sticky; top:16px}}
 
 /* Cards */
 .card{
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:16px;
-  padding:14px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
+  padding:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
 }
-h2{ margin:4px 0 12px; font-size:1.05rem; color:#fff }
-hr.hr{ border:none; border-top:1px solid var(--border); margin:14px 0 }
+h2{margin:6px 0 12px; font-size:1.05rem; color:#fff}
+hr.hr{border:none; border-top:1px solid var(--border); margin:14px 0}
 
 /* Inputs */
-label{ display:block; font-weight:700; margin:10px 0 6px; color:#fff }
+label{display:block; font-weight:800; margin:10px 0 6px; color:#fff}
 input{
-  width:100%; padding:10px 12px; border-radius:10px;
-  background:#0b1220; color:#fff; border:1px solid #27324a; font-size:1rem;
+  width:100%; padding:11px 12px; border-radius:10px; background:#0b1220;
+  color:#fff; border:1px solid #27324a; font-size:1rem;
 }
-.note{ color:var(--muted); font-size:.85rem }
+.note{color:var(--muted); font-size:.86rem}
 
-/* Oils list */
-.oil-list{ display:flex; flex-direction:column; gap:12px }
+/* Oils */
+.oil-list{display:flex; flex-direction:column; gap:12px}
 .oil{
   position:relative; display:flex; gap:12px; align-items:center; cursor:pointer;
   border:2px solid #23314d; border-radius:12px; padding:10px 12px;
-  background:var(--card); transition:.18s;
+  background:var(--panel2); transition:.18s;
 }
 .oil:hover{ box-shadow:0 10px 20px rgba(0,0,0,.25) }
 .oil.active{ border-color:var(--gold); box-shadow:0 0 0 1px rgba(240,194,75,.35), 0 16px 28px rgba(0,0,0,.35) }
 .oil img{
-  width:64px; height:64px; object-fit:contain; border-radius:8px; background:#fff;
-  border:1px solid #e5e7eb;
+  width:64px; height:64px; object-fit:contain; border-radius:8px; background:#fff; border:1px solid #e5e7eb;
 }
-.name{ font-weight:800; color:#fff }
-.meta{ color:var(--muted); font-size:.92rem }
+.name{font-weight:900; color:#fff}
+.meta{color:var(--muted); font-size:.92rem}
 .ribbon{
-  position:absolute; top:10px; right:-32px; transform:rotate(45deg);
-  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%);
-  color:#1b1202; font-weight:900; padding:6px 44px; font-size:.75rem;
-  text-shadow: 0 1px 0 rgba(255,255,255,.25);
+  position:absolute; top:12px; right:-34px; transform:rotate(45deg);
+  background:linear-gradient(90deg,var(--gold) 0%, var(--gold2) 100%);
+  color:#1b1202; font-weight:900; padding:6px 46px; font-size:.75rem;
+  text-shadow:0 1px 0 rgba(255,255,255,.3);
 }
 
 /* Results */
-.results h2{ color:#fff }
+.results h2{color:#fff}
 .hero{
   border:1px solid var(--border); border-radius:14px; padding:16px;
-  background:linear-gradient(180deg, #1c2438 0%, #121a2a 100%);
+  background:linear-gradient(180deg,#1b2337 0%, #111a2b 100%);
   margin-bottom:12px;
 }
-.big{ font-size:2rem; font-weight:900 }
-.grid2{ display:grid; gap:10px; grid-template-columns:1fr }
-@media(min-width:700px){ .grid2{ grid-template-columns:1fr 1fr } }
-.kpi{ background:var(--panel-2); border:1px solid var(--border); border-radius:12px; padding:12px }
-.kpi .v{ font-size:1.25rem; font-weight:900 }
+.big{font-size:2rem; font-weight:900}
+.grid2{display:grid; gap:10px; grid-template-columns:1fr}
+@media(min-width:700px){ .grid2{grid-template-columns:1fr 1fr} }
+.kpi{background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px}
+.kpi .v{font-size:1.25rem; font-weight:900}
 
 /* Loyalty */
 .loyalty{
   border:2px dashed rgba(240,194,75,.65);
   border-radius:12px; padding:12px; background:#1a2135; margin-bottom:12px;
 }
-.loyalty h4{ margin:0 0 6px; color:var(--gold) }
+.loyalty h4{margin:0 0 6px; color:var(--gold)}
 
 /* CTA */
 .cta{
-  background:var(--ok-bg); border:1px solid rgba(22,163,74,.3);
+  background:var(--okbg); border:1px solid rgba(22,163,74,.3);
   border-left:6px solid var(--ok); border-radius:10px; padding:12px; margin-top:12px;
 }
 .cta .email{
@@ -127,267 +120,251 @@ input{
   border-radius:10px; font-weight:800; text-decoration:none;
 }
 
-/* Bottom buttons */
-.actions{ display:flex; gap:10px; margin-top:12px }
-.btn{
-  flex:1; padding:12px; border:none; border-radius:10px; font-weight:800; cursor:pointer; font-size:1rem;
-}
-.btn.save{ background:var(--brand); color:#fff }
-.btn.clear{ background:#22314c; color:#fff }
+/* Bottom actions */
+.actions{display:flex; gap:10px; margin-top:12px}
+.btn{flex:1; padding:12px; border:none; border-radius:10px; font-weight:800; cursor:pointer; font-size:1rem}
+.btn.save{background:var(--brand); color:#fff}
+.btn.clear{background:#22314c; color:#fff}
 </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Alicorp_logo.svg" alt="Alicorp">
-      <div>
-        <p class="title">Quri — tu calculadora de ahorro</p>
-        <p class="tagline">Buscando el dorado perfecto que rinda más</p>
+<header>
+  <div class="brand">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Alicorp_logo.svg" alt="Alicorp">
+    <div>
+      <p class="title">Quri — tu calculadora de ahorro</p>
+      <p class="tagline">Buscando el dorado perfecto que rinda más</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- IZQUIERDA -->
+  <section class="card">
+    <h2>Tu consumo de aceite hoy</h2>
+    <label for="precioActual">Precio por balde (S/)</label>
+    <input id="precioActual" type="number" min="0" step="0.01" placeholder="Ej. 124">
+    <label for="litrosActual">Litros por balde actual (L)</label>
+    <input id="litrosActual" type="number" min="1" step="1" value="18">
+    <label for="baldesSemana">Baldes por semana</label>
+    <input id="baldesSemana" type="number" min="0" step="1" placeholder="Ej. 3">
+    <label for="numLocales">Número de locales</label>
+    <input id="numLocales" type="number" min="0" step="1" placeholder="Ej. 1">
+
+    <hr class="hr">
+    <h2>Elige tu aceite especializado</h2>
+    <div class="oil-list" id="oilList">
+      <!-- CRISOL -->
+      <div class="oil" data-key="crisol">
+        <span class="ribbon">+50% rendimiento</span>
+        <img src="crisol.png" alt="Crisol Fritura Intensa"
+             onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=C';">
+        <div>
+          <div class="name">Crisol Fritura Intensa</div>
+          <div class="meta">S/ 160 · 20 L · Excelencia en frituras</div>
+        </div>
+      </div>
+      <!-- TONDERO -->
+      <div class="oil" data-key="tondero">
+        <span class="ribbon">+30% rendimiento</span>
+        <img src="tondero.png" alt="Tondero Premium Fritura Intensa"
+             onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=T';">
+        <div>
+          <div class="name">Tondero Premium Fritura Intensa</div>
+          <div class="meta">S/ 130 · 20 L · Rendimiento confiable</div>
+        </div>
+      </div>
+      <!-- FRIOL -->
+      <div class="oil" data-key="friol">
+        <img src="friol.png" alt="Friol Ultra"
+             onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=F';">
+        <div>
+          <div class="name">Friol Ultra <span style="color:#94a3b8">(no especializado)</span></div>
+          <div class="meta">S/ 135 · 18 L</div>
+        </div>
       </div>
     </div>
-  </header>
+    <p class="note" style="margin-top:8px">Completa tus datos y elige un aceite; los resultados se actualizan automáticamente.</p>
+  </section>
 
-  <main>
-    <!-- Izquierda -->
-    <section class="card">
-      <h2>Tu consumo de aceite hoy</h2>
+  <!-- DERECHA -->
+  <section class="card results" id="resultsCard">
+    <h2>Resultado de tu transformación</h2>
 
-      <label for="precioActual">Precio por balde (S/)</label>
-      <input id="precioActual" type="number" min="0" step="0.01" placeholder="Ej. 124">
+    <!-- Plan de Lealtad primero -->
+    <div id="loyaltyBox" class="loyalty" style="display:none;">
+      <h4>🎖️ Crisol — Plan de Lealtad</h4>
+      <p>Acumulas <strong id="puntosCrisol">0</strong> puntos (1 punto por cada S/10 gastados en Crisol Fritura Intensa).</p>
+    </div>
 
-      <label for="litrosActual">Litros por balde actual (L)</label>
-      <input id="litrosActual" type="number" min="1" step="1" value="18">
+    <div class="hero">
+      <div style="font-weight:800; margin-bottom:6px;">💰 Ahorro estimado</div>
+      <div class="big" id="ahorroTxt">S/ 0.00</div>
+      <div class="note" id="equivalenciaBaldes" style="margin-top:6px">—</div>
+    </div>
 
-      <label for="baldesSemana">Baldes por semana</label>
-      <input id="baldesSemana" type="number" min="0" step="1" placeholder="Ej. 3">
-
-      <label for="numLocales">Número de locales</label>
-      <input id="numLocales" type="number" min="0" step="1" placeholder="Ej. 1">
-
-      <hr class="hr">
-
-      <h2>Elige tu aceite especializado</h2>
-      <div class="oil-list" id="oilList">
-        <!-- Crisol -->
-        <div class="oil" data-key="crisol">
-          <span class="ribbon">+50% rendimiento</span>
-          <img src="crisol.png" alt="Crisol Fritura Intensa"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=C';">
-          <div>
-            <div class="name">Crisol Fritura Intensa</div>
-            <div class="meta">S/ 160 · 20 L · Excelencia en frituras</div>
-          </div>
-        </div>
-        <!-- Tondero -->
-        <div class="oil" data-key="tondero">
-          <span class="ribbon">+30% rendimiento</span>
-          <img src="tondero.png" alt="Tondero Premium Fritura Intensa"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=T';">
-          <div>
-            <div class="name">Tondero Premium Fritura Intensa</div>
-            <div class="meta">S/ 130 · 20 L · Rendimiento confiable</div>
-          </div>
-        </div>
-        <!-- Friol -->
-        <div class="oil" data-key="friol">
-          <img src="friol.png" alt="Friol Ultra"
-               onerror="this.onerror=null;this.src='https://via.placeholder.com/64x64.png?text=F';">
-          <div>
-            <div class="name">Friol Ultra <span style="color:#94a3b8">(no especializado)</span></div>
-            <div class="meta">S/ 135 · 18 L</div>
-          </div>
-        </div>
+    <div class="grid2">
+      <div class="kpi">
+        <div class="note">📉 Gasto actual (mes)</div>
+        <div class="v" id="gastoActualTxt">S/ 0.00</div>
       </div>
-
-      <p class="note" style="margin-top:10px">Consejo: selecciona un aceite y completa tus datos; los resultados se actualizan automáticamente.</p>
-    </section>
-
-    <!-- Derecha -->
-    <section class="card results" id="resultsCard">
-      <h2>Resultado de tu transformación</h2>
-
-      <!-- Plan de lealtad (solo Crisol) -->
-      <div id="loyaltyBox" class="loyalty" style="display:none;">
-        <h4>🎖️ Crisol — Plan de Lealtad</h4>
-        <p>Acumulas <strong id="puntosCrisol">0</strong> puntos (1 punto por cada S/10 gastados en Crisol Fritura Intensa).</p>
+      <div class="kpi">
+        <div class="note">📈 Gasto con seleccionado (mes)</div>
+        <div class="v" id="gastoNuevoTxt">S/ 0.00</div>
       </div>
+    </div>
 
-      <div class="hero">
-        <div style="font-weight:800; margin-bottom:6px;">💰 Ahorro estimado</div>
-        <div class="big" id="ahorroTxt">S/ 0.00</div>
-        <div class="note" id="equivalenciaBaldes" style="margin-top:6px">—</div>
-      </div>
+    <div class="kpi" style="margin-top:10px">
+      <div class="note">🔥 Progreso de ahorro</div>
+      <div id="progresoTxt" style="font-weight:700">—</div>
+    </div>
 
-      <div class="grid2">
-        <div class="kpi">
-          <div class="note">📉 Gasto actual (mes)</div>
-          <div class="v" id="gastoActualTxt">S/ 0.00</div>
-        </div>
-        <div class="kpi">
-          <div class="note">📈 Gasto con seleccionado (mes)</div>
-          <div class="v" id="gastoNuevoTxt">S/ 0.00</div>
-        </div>
-      </div>
+    <div class="kpi" style="margin-top:10px">
+      <div class="note">💡 ¿Hasta cuánto podrías pagar por balde sin gastar más?</div>
+      <div class="v" id="precioMaxTxt">S/ —</div>
+    </div>
 
-      <div class="kpi" style="margin-top:10px">
-        <div class="note">🔥 Progreso de ahorro</div>
-        <div id="progresoTxt" style="font-weight:700">—</div>
-      </div>
+    <div class="cta">
+      <div style="font-weight:800">¿Quieres comprobar este rendimiento en tu cocina? 🚀</div>
+      <span class="email">asesoriatecnica@alicorp.com.pe</span>
+      <a class="btn" href="mailto:asesoriatecnica@alicorp.com.pe?subject=Quiero%20asesor%C3%ADa%20t%C3%A9cnica%20(Quri)">Quiero recibir asesoría técnica</a>
+    </div>
 
-      <div class="kpi" style="margin-top:10px">
-        <div class="note">💡 ¿Hasta cuánto podrías pagar por balde sin gastar más?</div>
-        <div class="v" id="precioMaxTxt">S/ —</div>
-      </div>
+    <div class="actions">
+      <button class="btn save" id="btnGuardar">Guardar resultados (PDF)</button>
+      <button class="btn clear" id="btnLimpiar">Limpiar datos</button>
+    </div>
+  </section>
+</main>
 
-      <div class="cta">
-        <div style="font-weight:800">¿Quieres comprobar este rendimiento en tu cocina? 🚀</div>
-        <span class="email">asesoriatecnica@alicorp.com.pe</span>
-        <a class="btn" href="mailto:asesoriatecnica@alicorp.com.pe?subject=Quiero%20asesor%C3%ADa%20t%C3%A9cnica%20Quri">Quiero recibir asesoría técnica</a>
-      </div>
+<!-- jsPDF para exportar solo resultados -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-      <div class="actions">
-        <button class="btn save" id="btnGuardar">Guardar resultados (PDF)</button>
-        <button class="btn clear" id="btnLimpiar">Limpiar datos</button>
-      </div>
-    </section>
-  </main>
+<script>
+/* Config productos */
+const OILS = {
+  crisol:  { nombre:'Crisol Fritura Intensa',  precio:160, litros:20, factor:1.50, lealtad:true  },
+  tondero: { nombre:'Tondero Premium Fritura', precio:130, litros:20, factor:1.30, lealtad:false },
+  friol:   { nombre:'Friol Ultra (no esp.)',   precio:135, litros:18, factor:1.00, lealtad:false }
+};
 
-  <!-- jsPDF para PDF (solo resultados) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+/* Elements */
+const els = {
+  precio: document.getElementById('precioActual'),
+  litros: document.getElementById('litrosActual'),
+  baldes: document.getElementById('baldesSemana'),
+  locales:document.getElementById('numLocales'),
 
-  <script>
-    // Config de productos
-    const OILS = {
-      crisol:  { nombre:'Crisol Fritura Intensa',  precio:160, litros:20, factor:1.50, lealtad:true  },
-      tondero: { nombre:'Tondero Premium Fritura', precio:130, litros:20, factor:1.30, lealtad:false },
-      friol:   { nombre:'Friol Ultra (no esp.)',   precio:135, litros:18, factor:1.00, lealtad:false }
-    };
+  ahorro:  document.getElementById('ahorroTxt'),
+  gastoA:  document.getElementById('gastoActualTxt'),
+  gastoN:  document.getElementById('gastoNuevoTxt'),
+  prog:    document.getElementById('progresoTxt'),
+  pmax:    document.getElementById('precioMaxTxt'),
+  eq:      document.getElementById('equivalenciaBaldes'),
 
-    // Elementos
-    const els = {
-      precioActual: document.getElementById('precioActual'),
-      litrosActual: document.getElementById('litrosActual'),
-      baldesSemana: document.getElementById('baldesSemana'),
-      numLocales:   document.getElementById('numLocales'),
+  loyBox:  document.getElementById('loyaltyBox'),
+  pts:     document.getElementById('puntosCrisol'),
 
-      ahorroTxt:      document.getElementById('ahorroTxt'),
-      gastoActualTxt: document.getElementById('gastoActualTxt'),
-      gastoNuevoTxt:  document.getElementById('gastoNuevoTxt'),
-      progresoTxt:    document.getElementById('progresoTxt'),
-      precioMaxTxt:   document.getElementById('precioMaxTxt'),
-      equivalencia:   document.getElementById('equivalenciaBaldes'),
-      puntosCrisol:   document.getElementById('puntosCrisol'),
-      loyaltyBox:     document.getElementById('loyaltyBox'),
+  btnPDF:  document.getElementById('btnGuardar'),
+  btnClr:  document.getElementById('btnLimpiar')
+};
 
-      btnGuardar:     document.getElementById('btnGuardar'),
-      btnLimpiar:     document.getElementById('btnLimpiar'),
-    };
+let seleccionado = null;
 
-    let seleccionado = null;
+document.querySelectorAll('.oil').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    document.querySelectorAll('.oil').forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+    seleccionado = OILS[card.dataset.key] || null;
+    recalcular();
+  });
+});
 
-    // Selección de aceite
-    document.querySelectorAll('.oil').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        document.querySelectorAll('.oil').forEach(c=>c.classList.remove('active'));
-        card.classList.add('active');
-        seleccionado = OILS[card.dataset.key] || null;
-        recalcular();
-      });
-    });
+[els.precio, els.litros, els.baldes, els.locales].forEach(i=> i.addEventListener('input', recalcular));
 
-    // Escuchar inputs
-    [els.precioActual, els.litrosActual, els.baldesSemana, els.numLocales].forEach(i=>{
-      i.addEventListener('input', recalcular);
-    });
+function n(v){ const x = parseFloat(v); return isNaN(x)?0:x; }
+function f2(x){ return Number(x).toFixed(2); }
 
-    function parseN(v){ const x = parseFloat(v); return isNaN(x)?0:x; }
-    function f2(n){ return Number(n).toFixed(2); }
+function resetResults(){
+  els.ahorro.textContent = 'S/ 0.00';
+  els.gastoA.textContent = 'S/ 0.00';
+  els.gastoN.textContent = 'S/ 0.00';
+  els.prog.textContent   = '—';
+  els.pmax.textContent   = 'S/ —';
+  els.eq.textContent     = '—';
+  els.loyBox.style.display = 'none';
+}
 
-    function recalcular(){
-      const P = parseN(els.precioActual.value);
-      const L = parseN(els.litrosActual.value) || 0;
-      const B = parseN(els.baldesSemana.value);
-      const N = parseN(els.numLocales.value);
+function recalcular(){
+  const P = n(els.precio.value);
+  const L = n(els.litros.value) || 0;
+  const B = n(els.baldes.value);
+  const N = n(els.locales.value);
 
-      if(!seleccionado || !P || !L || !B || !N){
-        els.ahorroTxt.textContent = 'S/ 0.00';
-        els.gastoActualTxt.textContent = 'S/ 0.00';
-        els.gastoNuevoTxt.textContent = 'S/ 0.00';
-        els.progresoTxt.textContent = '—';
-        els.precioMaxTxt.textContent = 'S/ —';
-        els.equivalencia.textContent = '—';
-        els.loyaltyBox.style.display = 'none';
-        return;
-      }
+  if(!seleccionado || !P || !L || !B || !N){ resetResults(); return; }
 
-      const mensual_balde = B * 4 * N;          // baldes/mes actuales
-      const gastoActual   = P * mensual_balde;  // S/ mes
-      const litrosMes     = L * mensual_balde;  // L/mes
+  const baldesMes = B * 4 * N;           // baldes/mes actuales
+  const gastoAct  = P * baldesMes;       // S/ mes actual
+  const litrosMes = L * baldesMes;       // L/mes actual
 
-      const baldesNuevo = litrosMes / (seleccionado.litros * seleccionado.factor);
-      const gastoNuevo  = seleccionado.precio * baldesNuevo;
-      const ahorro      = gastoActual - gastoNuevo;
-      const ahorroPct   = gastoActual>0 ? (ahorro / gastoActual * 100) : 0;
+  const baldesNuevo = litrosMes / (seleccionado.litros * seleccionado.factor);
+  const gastoNuevo  = seleccionado.precio * baldesNuevo;
+  const ahorro      = gastoAct - gastoNuevo;
+  const pct         = gastoAct>0 ? (ahorro/gastoAct*100) : 0;
 
-      els.gastoActualTxt.textContent = 'S/ ' + f2(gastoActual);
-      els.gastoNuevoTxt.textContent  = 'S/ ' + f2(gastoNuevo);
-      els.ahorroTxt.textContent      = 'S/ ' + f2(ahorro);
-      els.progresoTxt.textContent    = (ahorroPct>=0?'+':'') + f2(ahorroPct) + '% vs. situación actual';
+  els.gastoA.textContent = 'S/ ' + f2(gastoAct);
+  els.gastoN.textContent = 'S/ ' + f2(gastoNuevo);
+  els.ahorro.textContent = 'S/ ' + f2(ahorro);
+  els.prog.textContent   = (pct>=0?'+':'') + f2(pct) + '% vs. situación actual';
 
-      const baldesGratis = gastoNuevo>0 ? (ahorro / seleccionado.precio) : 0;
-      els.equivalencia.textContent = '≈ ' + f2(baldesGratis) + ' baldes gratis/mes';
+  const baldesGratis = gastoNuevo>0 ? (ahorro / seleccionado.precio) : 0;
+  els.eq.textContent = '≈ ' + f2(baldesGratis) + ' baldes gratis/mes';
 
-      const precioMax = baldesNuevo>0 ? (gastoActual / baldesNuevo) : 0;
-      els.precioMaxTxt.textContent = 'S/ ' + f2(precioMax);
+  const pMax = baldesNuevo>0 ? (gastoAct / baldesNuevo) : 0;
+  els.pmax.textContent = 'S/ ' + f2(pMax);
 
-      if(seleccionado.lealtad){
-        const puntos = gastoNuevo / 10; // 1 punto por cada S/10 gastados
-        els.puntosCrisol.textContent = Math.round(puntos);
-        els.loyaltyBox.style.display = 'block';
-      }else{
-        els.loyaltyBox.style.display = 'none';
-      }
-    }
+  if(seleccionado.lealtad){
+    const puntos = gastoNuevo / 10; // 1 punto cada S/10
+    els.pts.textContent = Math.round(puntos);
+    els.loyBox.style.display = 'block';
+  }else{
+    els.loyBox.style.display = 'none';
+  }
+}
 
-    // Limpiar
-    els.btnLimpiar.addEventListener('click', ()=>{
-      [els.precioActual, els.litrosActual, els.baldesSemana, els.numLocales].forEach(i=> i.value = '');
-      els.litrosActual.value = 18;
-      document.querySelectorAll('.oil').forEach(c=>c.classList.remove('active'));
-      seleccionado = null;
-      recalcular();
-    });
+/* Limpiar */
+els.btnClr.addEventListener('click', ()=>{
+  [els.precio, els.litros, els.baldes, els.locales].forEach(i=> i.value='');
+  els.litros.value = 18;
+  document.querySelectorAll('.oil').forEach(c=>c.classList.remove('active'));
+  seleccionado = null;
+  resetResults();
+});
 
-    // Guardar PDF (solo resultados)
-    els.btnGuardar.addEventListener('click', ()=>{
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit:'pt', format:'a4', compress:true });
+/* Guardar PDF — solo resultados */
+els.btnPDF.addEventListener('click', ()=>{
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'pt', format:'a4', compress:true });
 
-      const add = (txt, x, y, size=12, bold=false)=>{
-        doc.setFont('helvetica', bold?'bold':'normal');
-        doc.setFontSize(size);
-        doc.text(String(txt), x, y);
-      };
+  const add=(t,x,y,s=12,b=false)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(s);doc.text(String(t),x,y);};
 
-      let y = 64, x = 50;
-      add('Quri — Resultado de tu transformación', x, y, 18, true); y+=26;
+  let y=64,x=50;
+  add('Quri — Resultado de tu transformación',x,y,18,true); y+=26;
 
-      add('Ahorro estimado:', x, y, 12, true);
-      add(els.ahorroTxt.textContent, x+150, y, 12, true); y+=20;
+  add('Ahorro estimado:',x,y,12,true); add(els.ahorro.textContent,x+150,y,12,true); y+=20;
+  add('Gasto actual (mes):',x,y); add(els.gastoA.textContent,x+180,y); y+=18;
+  add('Gasto con seleccionado (mes):',x,y); add(els.gastoN.textContent,x+220,y); y+=18;
+  add('Progreso de ahorro:',x,y); add(els.prog.textContent,x+150,y); y+=18;
+  add('Precio máx. por balde sin gastar más:',x,y); add(els.pmax.textContent,x+300,y); y+=22;
 
-      add('Gasto actual (mes):', x, y); add(els.gastoActualTxt.textContent, x+180, y); y+=18;
-      add('Gasto con seleccionado (mes):', x, y); add(els.gastoNuevoTxt.textContent, x+220, y); y+=18;
-      add('Progreso de ahorro:', x, y); add(els.progresoTxt.textContent, x+160, y); y+=18;
-      add('Precio máx. por balde sin gastar más:', x, y); add(els.precioMaxTxt.textContent, x+300, y); y+=22;
+  if(seleccionado && seleccionado.lealtad){
+    add('Plan de Lealtad Crisol',x,y,14,true); y+=18;
+    add('Puntos estimados:',x,y); add(document.getElementById('puntosCrisol').textContent+' pts/mes',x+140,y); y+=20;
+  }
 
-      if(seleccionado && seleccionado.lealtad){
-        add('Plan de Lealtad Crisol', x, y, 14, true); y+=18;
-        add('Puntos estimados:', x, y); add(document.getElementById('puntosCrisol').textContent + ' pts/mes', x+140, y); y+=20;
-      }
-
-      add('Contacto: asesoriatecnica@alicorp.com.pe', x, 780);
-      doc.save('Quri_resultados.pdf');
-    });
-  </script>
+  add('Contacto: asesoriatecnica@alicorp.com.pe',x,780);
+  doc.save('Quri_resultados.pdf');
+});
+</script>
 </body>
 </html>
