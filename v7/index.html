@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<base href="https://matiasutrilla.github.io/Quri---Tu-calculadora-del-ahorro/">
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Quri — tu calculadora de ahorro</title>
@@ -441,7 +442,7 @@
     const c = currentCalc(selected);
     const correo = (document.getElementById('email').value || 'asesoriatecnica@alicorp.com.pe').trim();
     const asunto = 'Consulta técnica — Quri';
-    const sep = '\r\n';
+    const sep = '%0D%0A';
     const prod = selected ? `Tondero Frituras (S/ ${fmt(parseFloat(selected.dataset.precio))} · ${selected.dataset.litros} L · +50% rendimiento)` : '—';
     const cuerpo =
 `Hola equipo de Asesoría Técnica,${sep}${sep}Quiero validar el rendimiento en mi cocina. Análisis desde Quri:${sep}${sep}— Consumo actual${sep}   • Precio por balde: S/ ${fmt(c.P0)}${sep}   • Litros por balde: ${fmt(c.L0)} L${sep}   • Baldes por semana: ${fmt(c.B)}${sep}   • N° de locales: ${fmt(c.N)}${sep}   • Periodo: ${periodoLabel()}${sep}${sep}— Aceite especializado evaluado${sep}   • Producto: ${prod}${sep}${sep}— Resultados${sep}   • Gasto actual (${periodoLabel()}): S/ ${fmt(c.gastoActual)}${sep}   • Gasto con especializado (${periodoLabel()}): S/ ${fmt(c.gastoNuevo)}${sep}   • Ahorro estimado: S/ ${fmt(c.ahorro)}${sep}   • Ahorro vs. actual: ${Math.max(0,Math.round(c.pct||0))}%${sep}   • Máximo precio por balde para no gastar más: S/ ${isFinite(c.pmax)?fmt(c.pmax):'—'}${sep}${sep}Gracias.`;
