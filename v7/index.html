@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<base href="../">
+<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Quri — tu calculadora de ahorro</title>
@@ -131,7 +131,7 @@
 <body>
   <div class="wrap">
     <header>
-      <img src="images/alicorp.png" alt="Alicorp"
+      <img src="./alicorp.png" alt="Alicorp"
            onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23121f2a%22/><text x=%2210%22 y=%2226%22 fill=%22%23ffd76a%22 font-size=%2220%22 font-family=%22Arial%22>ALICORP</text></svg>';">
       <div>
         <h1>Quri — tu calculadora de ahorro</h1>
@@ -441,7 +441,7 @@
     const c = currentCalc(selected);
     const correo = (document.getElementById('email').value || 'asesoriatecnica@alicorp.com.pe').trim();
     const asunto = 'Consulta técnica — Quri';
-    const sep = '%0D%0A';
+    const sep = '\n';
     const prod = selected ? `Tondero Frituras (S/ ${fmt(parseFloat(selected.dataset.precio))} · ${selected.dataset.litros} L · +50% rendimiento)` : '—';
     const cuerpo =
 `Hola equipo de Asesoría Técnica,${sep}${sep}Quiero validar el rendimiento en mi cocina. Análisis desde Quri:${sep}${sep}— Consumo actual${sep}   • Precio por balde: S/ ${fmt(c.P0)}${sep}   • Litros por balde: ${fmt(c.L0)} L${sep}   • Baldes por semana: ${fmt(c.B)}${sep}   • N° de locales: ${fmt(c.N)}${sep}   • Periodo: ${periodoLabel()}${sep}${sep}— Aceite especializado evaluado${sep}   • Producto: ${prod}${sep}${sep}— Resultados${sep}   • Gasto actual (${periodoLabel()}): S/ ${fmt(c.gastoActual)}${sep}   • Gasto con especializado (${periodoLabel()}): S/ ${fmt(c.gastoNuevo)}${sep}   • Ahorro estimado: S/ ${fmt(c.ahorro)}${sep}   • Ahorro vs. actual: ${Math.max(0,Math.round(c.pct||0))}%${sep}   • Máximo precio por balde para no gastar más: S/ ${isFinite(c.pmax)?fmt(c.pmax):'—'}${sep}${sep}Gracias.`;
