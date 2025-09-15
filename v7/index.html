@@ -1,1 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="../">
+  <title>Quri — tu calculadora de ahorro</title>
+  <style>
+    :root{
+      --bg:#0f1a24;
+      --panel:#11202b;
+      --panel-2:#0d1a23;
+      --text:#e6f0f6;
+      --muted:#98b2c2;
+      --gold:#f2c94c;
+      --gold-2:#f4d77a;
+      --accent:#1f8b79;
+      --accent-2:#1ab38f;
+      --ring:#245c68;
+      --ok:#21c167;
+      --danger:#e85b5b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 50% -300px, #162330 0%, #0e1a24 60%, var(--bg) 100%);
+    }
+
+    .wrap{max-width:1160px;margin:0 auto;padding:32px 16px}
+    .topbar{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+    .topbar img{height:28px}
+    .title h1{font-size:16px;margin:0 0 6px 0}
+    .title p{margin:0;font-size:12px;color:var(--muted)}
+    .sep{height:3px;background:linear-gradient(90deg, transparent, var(--gold), transparent);opacity:.6;margin:10px 0 18px}
+
+    .grid{display:grid;gap:18px}
+    @media(min-width:980px){ .grid{grid-template-columns:1fr 1fr} }
+
+    .card{
+      background:linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+      border:1px solid #0b2a3a;
+      border-radius:14px;
+      padding:18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    .card h2{margin:0 0 14px 0;font-size:18px}
+    label{display:block;margin:0 0 8px 2px;font-size:13px;color:var(--muted)}
+    .row{display:grid;gap:12px}
+    @media(min-width:680px){ .row{grid-template-columns:1fr 1fr} }
+    input, select{
+      width:100%;
+      height:44px;
+      padding:10px 12px;
+      border:1px solid var(--ring);
+      border-radius:10px;
+      background:#0a1820;
+      color:var(--text);
+      outline:none;
+    }
+    input::placeholder{color:#7fa0ac}
+    .btn{
+      height:44px; padding:10px 18px; border-radius:10px; border:1px solid transparent;
+      color:#08151b; background:var(--ok); font-weight:700; cursor:pointer;
+    }
+    .btn.secondary{background:#152733;color:var(--text);border-color:#26414c}
+    .btn.red{background:var(--danger);color:#fff}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    .inline-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+    .pill{
+      background:linear-gradient(180deg, var(--gold) 0%, var(--gold-2) 100%);
+      color:#1d1a00; font-weight:800; font-size:12px;
+      padding:8px 12px; border-radius:999px; display:inline-flex; gap:6px; align-items:center;
+      border:1px solid rgba(0,0,0,.15); box-shadow:0 4px 10px rgba(0,0,0,.25);
+    }
+
+    .oil-card{
+      position:relative; display:flex; gap:14px; align-items:center;
+      border:1px solid #2c3e47; border-radius:12px; padding:12px 12px; cursor:pointer;
+      transition: all .2s ease; background:#0c1c25;
+    }
+    .oil-card:hover{border-color:#3f5663}
+    .oil-card.selected{border-color:var(--gold); box-shadow:0 0 0 2px rgba(242,201,76,.25)}
+    .oil-card img{width:58px;height:58px;object-fit:contain}
+    .oil-info{flex:1}
+    .ribbon{position:absolute; right:10px; top:10px}
+
+    .stat{display:flex; gap:8px; align-items:center; margin-top:8px}
+    .kpi{
+      display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:center;
+      background:#0a1820; border:1px solid #143141; border-radius:12px; padding:10px 12px;
+    }
+    .kpi b{font-size:20px}
+    .kpi small{color:var(--muted)}
+    .kpi .big{font-size:22px}
+
+    .results h3{margin:0 0 8px 0}
+    .results .bigmoney{font-size:34px; font-weight:900; background:linear-gradient(180deg,#fff,#bfe3ef);
+      -webkit-background-clip:text; background-clip:text; color:transparent}
+    .muted{color:var(--muted)}
+
+    .two{display:grid; gap:12px}
+    @media(min-width:760px){ .two{grid-template-columns:1fr 1fr} }
+
+    .progress{height:10px;border-radius:99px;background:#0b2632;overflow:hidden;border:1px solid #19424f}
+    .progress > span{display:block;height:100%;background:linear-gradient(90deg,#18b1a0,#0fd47e);width:0%}
+
+    /* PRINT: solo resultados */
+    @media print{
+      body{background:#fff}
+      .wrap > *:not(#printable){display:none !important}
+      #printable{display:block}
+      #printable .card{box-shadow:none;border-color:#ddd}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <img src="alicorp.png" alt="Alicorp logo">
+      <div class="title">
+        <h1>Quri — tu calculadora de ahorro</h1>
+        <p>Buscando el dorado perfecto que rinde más</p>
+      </div>
+    </div>
+    <div class="sep"></div>
+
+    <div class="grid">
+      <!-- Columna izquierda: Inputs + Especializado -->
+      <div class="grid">
+        <!-- Tu consumo -->
+        <div class="card" id="consumo-card">
+          <h2>Tu consumo de aceite hoy</h2>
+          <div class="row">
+            <div>
+              <label>Precio por balde (S/)</label>
+              <input id="precioActual" type="number" min="0" placeholder="Ingresa aquí: precio">
+            </div>
+            <div>
+              <label>Litros por balde (L)</label>
+              <input id="litrosActual" type="number" min="1" value="18">
+            </div>
+            <div>
+              <label>Baldes por semana</label>
+              <input id="baldesSemana" type="number" min="0" placeholder="Ingresa aquí: consumo en baldes">
+            </div>
+            <div>
+              <label>Número de locales</label>
+              <input id="locales" type="number" min="1" placeholder="Ingresa aquí: locales">
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="inline-actions">
+            <button class="btn" id="btnAnalizar">Analizar tu aceite</button>
+          </div>
+
+          <div class="row" style="margin-top:12px">
+            <div class="kpi">
+              <div class="pill">Precio por litro — tu aceite</div>
+              <b id="kpiPPLActual" class="big">S/ —</b>
+              <small class="muted">Se calcula con tu precio y litros por balde.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Especializado -->
+        <div class="card" id="especializado-card">
+          <h2>Elige tu aceite especializado</h2>
+
+          <div id="cardTondero" class="oil-card" role="button" aria-pressed="false">
+            <img src="tonderofrituras.png" alt="Tondero Frituras">
+            <div class="oil-info">
+              <div style="font-weight:800">Tondero Frituras</div>
+              <div class="muted">S/ 130 · 20 L · Rendimiento garantizado</div>
+              <div class="stat">
+                <div class="kpi">
+                  <small class="muted">Precio por litro</small>
+                  <b id="pplTondero">S/ 6.50</b>
+                </div>
+                <div class="kpi">
+                  <small class="muted">Litro efectivo</small>
+                  <b>+50% (20 L → 30 L)</b>
+                </div>
+              </div>
+            </div>
+            <span class="pill ribbon">+50% rendimiento</span>
+          </div>
+
+          <div class="inline-actions" style="margin-top:14px">
+            <label style="margin:0;color:var(--muted)">Periodo</label>
+            <select id="periodo" style="max-width:160px">
+              <option value="mes">Por mes</option>
+              <option value="semana">Por semana</option>
+              <option value="anio">Por año</option>
+            </select>
+
+            <div style="flex:1"></div>
+
+            <button class="btn secondary" id="btnLimpiar">Limpiar datos</button>
+            <button class="btn" id="btnPDF">Guardar (PDF)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Resultados -->
+      <div id="printable">
+        <div class="card results">
+          <h2>Resultado de tu transformación</h2>
+
+          <div class="card" style="margin-top:8px">
+            <div class="pill">💡 Ahorro estimado</div>
+            <div class="bigmoney" id="ahorroTotal" style="margin-top:8px">S/ 0</div>
+            <div class="muted" id="baldesGratis">≈ 0 baldes gratis por mes</div>
+          </div>
+
+          <div class="two" style="margin-top:12px">
+            <div class="card">
+              <div class="pill">🧾 Gasto actual (mes)</div>
+              <div class="bigmoney" id="gastoActualMes" style="margin-top:8px">S/ 0</div>
+            </div>
+            <div class="card">
+              <div class="pill">🧪 Gasto con aceite especializado (mes)</div>
+              <div class="bigmoney" id="gastoSelMes" style="margin-top:8px">S/ 0</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <div class="pill">📈 Progreso de ahorro</div>
+            <div class="muted" id="lblAhorroPct" style="margin:6px 0 8px 0">Ahorro del 0% vs. situación actual</div>
+            <div class="progress"><span id="bar"></span></div>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <div class="pill">💡 ¿Hasta cuánto podrías pagar por balde sin gastar más?</div>
+            <div class="bigmoney" id="precioMax" style="margin-top:8px">S/ —</div>
+            <div class="muted">Precio máximo por balde del aceite especializado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Datos del aceite especializado ----------
+    const TONDERO = {
+      nombre: 'Tondero Frituras',
+      precioBalde: 130,
+      litrosBalde: 20,
+      factorRend: 1.5, // +50%
+    };
+
+    // ---------- Helpers ----------
+    const $ = sel => document.querySelector(sel);
+    const nf0 = v => isFinite(v) ? 'S/ ' + Math.round(v).toLocaleString('es-PE') : 'S/ —';
+    const nf2 = v => isFinite(v) ? 'S/ ' + (Math.round(v*100)/100).toLocaleString('es-PE', {minimumFractionDigits:2, maximumFractionDigits:2}) : 'S/ —';
+
+    function getInputs(){
+      return {
+        precioActual: parseFloat($('#precioActual').value),
+        litrosActual: parseFloat($('#litrosActual').value) || 0,
+        baldesSemana: parseFloat($('#baldesSemana').value),
+        locales: parseFloat($('#locales').value) || 0,
+        periodo: $('#periodo').value,
+        tonderoSel: $('#cardTondero').classList.contains('selected')
+      };
+    }
+
+    function mensualizador(periodo){
+      // Convertimos el consumo ingresado (baldes/semana) a "por mes"
+      // Mantengo 4 semanas para continuidad con versiones previas
+      if(periodo === 'semana') return 4;
+      if(periodo === 'anio') return 1/12; // si el usuario ingresa baldes por semana pero elige "por año", usamos 1/12 para mostrar gasto mensual
+      return 1; // mes
+    }
+
+    function recalc(){
+      const I = getInputs();
+
+      // Precio por litro actual
+      const pplActual = (I.precioActual>0 && I.litrosActual>0) ? (I.precioActual / I.litrosActual) : NaN;
+      $('#kpiPPLActual').textContent = nf2(pplActual);
+
+      // Si no hay selección de especializado (o falta data), reseteamos resultados
+      if(!I.tonderoSel || !(I.precioActual>0) || !(I.litrosActual>0) || !(I.baldesSemana>0) || !(I.locales>0)){
+        $('#ahorroTotal').textContent = 'S/ 0';
+        $('#baldesGratis').textContent = '≈ 0 baldes gratis por mes';
+        $('#gastoActualMes').textContent = 'S/ 0';
+        $('#gastoSelMes').textContent = 'S/ 0';
+        $('#lblAhorroPct').textContent = 'Ahorro del 0% vs. situación actual';
+        $('#bar').style.width = '0%';
+        $('#precioMax').textContent = 'S/ —';
+        // ppl Tondero
+        $('#pplTondero').textContent = nf2(TONDERO.precioBalde / TONDERO.litrosBalde);
+        return;
+      }
+
+      const mult = mensualizador(I.periodo);
+      // consumo mensual actual en baldes:
+      const baldesMes = I.baldesSemana * I.locales * (I.periodo==='semana' ? 4 : 1);
+      const gastoActualMes = baldesMes * I.precioActual;
+
+      // Para igualar producción (en litros "efectivos"):
+      const litrosEfSel = TONDERO.litrosBalde * TONDERO.factorRend;       // 30 L
+      const ratioBalde = I.litrosActual / litrosEfSel;                    // ej: 18/30 = 0.6
+      const baldesSelMes = baldesMes * ratioBalde;
+      const gastoSelMes   = baldesSelMes * TONDERO.precioBalde;
+
+      const ahorro = Math.max(0, gastoActualMes - gastoSelMes);
+      const ahorroPct = gastoActualMes>0 ? (ahorro / gastoActualMes * 100) : 0;
+
+      // KPIs (0 decimales)
+      $('#gastoActualMes').textContent = nf0(gastoActualMes);
+      $('#gastoSelMes').textContent    = nf0(gastoSelMes);
+      $('#ahorroTotal').textContent    = nf0(ahorro);
+      const baldesGratis = TONDERO.precioBalde>0 ? (ahorro / TONDERO.precioBalde) : 0;
+      $('#baldesGratis').textContent   = '≈ ' + (Math.round(baldesGratis)).toLocaleString('es-PE') + ' baldes gratis por mes';
+      $('#lblAhorroPct').textContent   = 'Ahorro del ' + Math.round(ahorroPct) + '% vs. situación actual';
+      $('#bar').style.width            = Math.min(100, Math.max(0, ahorroPct)) + '%';
+
+      // Precio máximo por balde especializado para no gastar más
+      const precioMax = (baldesSelMes>0) ? (gastoActualMes / baldesSelMes) : NaN;
+      $('#precioMax').textContent = nf0(precioMax);
+
+      // ppl Tondero (con 2 decimales)
+      $('#pplTondero').textContent = nf2(TONDERO.precioBalde / TONDERO.litrosBalde);
+    }
+
+    // ---------- Eventos ----------
+    ;['#precioActual','#litrosActual','#baldesSemana','#locales','#periodo'].forEach(sel=>{
+      document.addEventListener('input', e=>{
+        if(e.target.matches(sel)) recalc();
+      });
+      document.addEventListener('change', e=>{
+        if(e.target.matches(sel)) recalc();
+      });
+    });
+
+    $('#btnAnalizar').addEventListener('click', recalc);
+
+    // Selección del aceite
+    $('#cardTondero').addEventListener('click', ()=>{
+      const card = $('#cardTondero');
+      card.classList.toggle('selected');
+      card.setAttribute('aria-pressed', card.classList.contains('selected') ? 'true' : 'false');
+      recalc();
+    });
+
+    // Limpiar
+    $('#btnLimpiar').addEventListener('click', ()=>{
+      $('#precioActual').value = '';
+      $('#litrosActual').value = 18;
+      $('#baldesSemana').value = '';
+      $('#locales').value = '';
+      $('#periodo').value = 'mes';
+      $('#cardTondero').classList.remove('selected');
+      $('#cardTondero').setAttribute('aria-pressed','false');
+      recalc();
+    });
+
+    // Guardar PDF (imprime solo resultados)
+    $('#btnPDF').addEventListener('click', ()=>{
+      window.print();
+    });
+
+    // Primera pasada
+    recalc();
+  </script>
+</body>
+</html>
 
